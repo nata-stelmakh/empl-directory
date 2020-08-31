@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import API from "../utils/API";
 
-// import axios from "axios";
-// const BASEURL = "https://randomuser.me/api/?results=100";
-
 export default class ResultContainer extends Component {
   constructor() {
     super();
@@ -62,6 +59,18 @@ export default class ResultContainer extends Component {
     );
     this.setState({ sortedList: filtredList });
   };
+  githubChangeHandler = (e) => {
+    console.log(e.target.value);
+    console.log(this.state);
+
+    const filtredList = this.state.list.filter(
+      (item) =>
+        item.login.username
+          .toLowerCase()
+          .indexOf(e.target.value.toLowerCase()) !== -1
+    );
+    this.setState({ sortedList: filtredList });
+  };
   render() {
     return (
       <div>
@@ -95,7 +104,18 @@ export default class ResultContainer extends Component {
                   </div>
                 </div>
               </th>
-
+              <th scope="col">
+                <div className="th-inner">GitHub</div>
+                <div className="fht-cell">
+                  <div className="filter-control">
+                    <input
+                      onChange={(e) => this.githubChangeHandler(e)}
+                      type="text"
+                      className="form-control bootstrap-table-filter-control-name search-input"
+                    ></input>
+                  </div>
+                </div>
+              </th>
               <th scope="col">
                 <div className="th-inner">Office</div>
                 <div className="fht-cell">
@@ -134,6 +154,7 @@ export default class ResultContainer extends Component {
                     </td>
                     <td>{item.name.first + " " + item.name.last}</td>
                     <td>{item.email} </td>
+                    <td>{"github.com/" + item.login.username}</td>
                     <td>{item.location.country}</td>
                     <td>{item.phone}</td>
                   </tr>
