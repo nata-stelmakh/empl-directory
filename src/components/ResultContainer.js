@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import TableHeader from "./TableHeader";
 import API from "../utils/API";
 import "../style/style.css";
 
@@ -8,6 +9,7 @@ export default class ResultContainer extends Component {
     this.state = {
       list: [],
       sortedList: [],
+      sortOrder: true,
       error: null,
     };
   }
@@ -16,12 +18,32 @@ export default class ResultContainer extends Component {
     this.setState({
       list: data.data.results,
       sortedList: data.data.results,
+      sortDirection: "fas fa-sort-up",
     });
     console.log(data.data.results);
   };
   componentDidMount() {
     API.searchUsers().then(this.buildList).catch();
   }
+
+  sortHandler = (e) => {
+    const sortedList = this.state.sortedList.sort((a, b) => {
+      if (this.state.sortOrder === true) {
+        return a.name.last.localeCompare(b.name.last);
+      } else {
+        return b.name.last.localeCompare(a.name.last);
+      }
+    });
+    const direction = this.state.sortOrder
+      ? "fas fa-sort-down"
+      : "fas fa-sort-up";
+    this.setState({
+      sortedList: sortedList,
+      sortOrder: !this.state.sortOrder,
+      sortDirection: direction,
+    });
+  };
+
   nameChangeHandler = (e) => {
     console.log(e.target.value);
     console.log(this.state);
@@ -75,78 +97,15 @@ export default class ResultContainer extends Component {
     return (
       <div>
         <table className="table">
-          <thead className="thead-dark">
-            <tr>
-              <th scope="col" className="heading">
-                Photo
-              </th>
-              <th scope="col">
-                <div className="th-inner heading">Name</div>
-                <div className="fht-cell">
-                  <div className="filter-control row">
-                    <input
-                      onChange={(e) => this.nameChangeHandler(e)}
-                      type="text"
-                      className="form-control bootstrap-table-filter-control-name search-input"
-                    ></input>
-                  </div>
-                </div>
-              </th>
+          <TableHeader
+            sortHandler={this.sortHandler}
+            sortDirection={this.state.sortDirection}
+            nameChangeHandler={this.nameChangeHandler}
+            emailChangeHandler={this.emailChangeHandler}
+            githubChangeHandler={this.githubChangeHandler}
+            officeChangeHandler={this.officeChangeHandler}
+          />
 
-              <th scope="col">
-                <div className="th-inner heading">Email</div>
-                <div className="fht-cell">
-                  <div className="filter-control">
-                    <input
-                      onChange={(e) => this.emailChangeHandler(e)}
-                      type="text"
-                      className="form-control bootstrap-table-filter-control-name search-input"
-                    ></input>
-                  </div>
-                </div>
-              </th>
-              <th scope="col">
-                <div className="th-inner heading">GitHub</div>
-                <div className="fht-cell">
-                  <div className="filter-control">
-                    <input
-                      onChange={(e) => this.githubChangeHandler(e)}
-                      type="text"
-                      className="form-control bootstrap-table-filter-control-name search-input"
-                    ></input>
-                  </div>
-                </div>
-              </th>
-              <th scope="col">
-                <div className="th-inner heading">Office</div>
-                <div className="fht-cell">
-                  <div className="filter-control">
-                    <select
-                      onChange={(e) => this.officeChangeHandler(e)}
-                      className="form-control bootstrap-table-filter-control-price"
-                      dir="ltr"
-                    >
-                      <option value="" defaultValue="defaultValue">
-                        All
-                      </option>
-                      <option value="United States">USA</option>
-                      <option value="Canada">Canada</option>
-                      <option value="Denmark">Denmark</option>
-                      <option value="France">France</option>
-                      <option value="Germany">Germany</option>
-                      <option value="Netherlands">Netherlands</option>
-                      <option value="Spain">Spain</option>
-                      <option value="Turkey">Turkey</option>
-                      <option value="Brazil">Brazil</option>
-                    </select>
-                  </div>
-                </div>
-              </th>
-              <th scope="col" className="heading">
-                Phone
-              </th>
-            </tr>
-          </thead>
           <tbody>
             {this.state.sortedList.length > 0 &&
               this.state.sortedList.map((item) => {
