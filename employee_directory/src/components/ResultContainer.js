@@ -25,26 +25,16 @@ export default class ResultContainer extends Component {
     API.searchUsers().then(this.buildList).catch();
   }
 
-  firstNameChangeHandler = (e) => {
+  nameChangeHandler = (e) => {
     console.log(e.target.value);
     console.log(this.state);
 
     const filtredList = this.state.list.filter(
       (item) =>
         item.name.first.toLowerCase().indexOf(e.target.value.toLowerCase()) !==
-        -1
-    );
-    this.setState({ sortedList: filtredList });
-  };
-
-  lastNameChangeHandler = (e) => {
-    console.log(e.target.value);
-    console.log(this.state);
-
-    const filtredList = this.state.list.filter(
-      (item) =>
+          -1 ||
         item.name.last.toLowerCase().indexOf(e.target.value.toLowerCase()) !==
-        -1
+          -1
     );
     this.setState({ sortedList: filtredList });
   };
@@ -81,29 +71,18 @@ export default class ResultContainer extends Component {
             <tr>
               <th scope="col">Photo</th>
               <th scope="col">
-                <div className="th-inner">First Name</div>
+                <div className="th-inner">Name</div>
                 <div className="fht-cell">
                   <div className="filter-control">
                     <input
-                      onChange={(e) => this.firstNameChangeHandler(e)}
+                      onChange={(e) => this.nameChangeHandler(e)}
                       type="text"
                       className="form-control bootstrap-table-filter-control-name search-input"
                     ></input>
                   </div>
                 </div>
               </th>
-              <th scope="col">
-                <div className="th-inner">Last Name</div>
-                <div className="fht-cell">
-                  <div className="filter-control">
-                    <input
-                      onChange={(e) => this.lastNameChangeHandler(e)}
-                      type="text"
-                      className="form-control bootstrap-table-filter-control-name search-input"
-                    ></input>
-                  </div>
-                </div>
-              </th>
+
               <th scope="col">
                 <div className="th-inner">Email</div>
                 <div className="fht-cell">
@@ -153,8 +132,7 @@ export default class ResultContainer extends Component {
                     <td>
                       <img src={item.picture.thumbnail} alt="employee"></img>
                     </td>
-                    <td>{item.name.first}</td>
-                    <td>{item.name.last}</td>
+                    <td>{item.name.first + " " + item.name.last}</td>
                     <td>{item.email} </td>
                     <td>{item.location.country}</td>
                     <td>{item.phone}</td>
