@@ -1,0 +1,16 @@
+.heading{
+    text-align: center;
+}
+
+table{
+    text-align: center;
+}
+img {
+    border-radius: 50%;
+  }
+ 
+.jumbotron{
+    background-image: url(./abstract.jpg);
+    background-repeat: no-repeat;
+  background-size: cover;
+}

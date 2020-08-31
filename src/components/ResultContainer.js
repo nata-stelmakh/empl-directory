@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import API from "../utils/API";
+import "../style/style.css";
 
 export default class ResultContainer extends Component {
   constructor() {
@@ -21,7 +22,6 @@ export default class ResultContainer extends Component {
   componentDidMount() {
     API.searchUsers().then(this.buildList).catch();
   }
-
   nameChangeHandler = (e) => {
     console.log(e.target.value);
     console.log(this.state);
@@ -74,15 +74,16 @@ export default class ResultContainer extends Component {
   render() {
     return (
       <div>
-        <h2>Employees</h2>
-        <table className="table table-bordered">
+        <table className="table">
           <thead className="thead-dark">
             <tr>
-              <th scope="col">Photo</th>
+              <th scope="col" className="heading">
+                Photo
+              </th>
               <th scope="col">
-                <div className="th-inner">Name</div>
+                <div className="th-inner heading">Name</div>
                 <div className="fht-cell">
-                  <div className="filter-control">
+                  <div className="filter-control row">
                     <input
                       onChange={(e) => this.nameChangeHandler(e)}
                       type="text"
@@ -93,7 +94,7 @@ export default class ResultContainer extends Component {
               </th>
 
               <th scope="col">
-                <div className="th-inner">Email</div>
+                <div className="th-inner heading">Email</div>
                 <div className="fht-cell">
                   <div className="filter-control">
                     <input
@@ -105,7 +106,7 @@ export default class ResultContainer extends Component {
                 </div>
               </th>
               <th scope="col">
-                <div className="th-inner">GitHub</div>
+                <div className="th-inner heading">GitHub</div>
                 <div className="fht-cell">
                   <div className="filter-control">
                     <input
@@ -117,7 +118,7 @@ export default class ResultContainer extends Component {
                 </div>
               </th>
               <th scope="col">
-                <div className="th-inner">Office</div>
+                <div className="th-inner heading">Office</div>
                 <div className="fht-cell">
                   <div className="filter-control">
                     <select
@@ -141,7 +142,9 @@ export default class ResultContainer extends Component {
                   </div>
                 </div>
               </th>
-              <th scope="col">Phone</th>
+              <th scope="col" className="heading">
+                Phone
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -150,7 +153,7 @@ export default class ResultContainer extends Component {
                 return (
                   <tr key={item.login.uuid}>
                     <td>
-                      <img src={item.picture.thumbnail} alt="employee"></img>
+                      <img src={item.picture.medium} alt="employee"></img>
                     </td>
                     <td>{item.name.first + " " + item.name.last}</td>
                     <td>{item.email} </td>
