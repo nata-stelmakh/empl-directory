@@ -8,7 +8,9 @@ table{
 img {
     border-radius: 50%;
   }
- 
+ i{
+   padding-left: 10px;
+ }
 .jumbotron{
     background-image: url(./abstract.jpg);
     background-repeat: no-repeat;

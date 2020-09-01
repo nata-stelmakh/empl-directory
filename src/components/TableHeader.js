@@ -14,8 +14,8 @@ export default class TableHeader extends Component {
               Name
               <span>
                 <i
-                  onClick={() => this.props.sortHandler()}
-                  class={this.props.sortDirection}
+                  onClick={() => this.props.sortHandlerName()}
+                  className={this.props.sortDirection}
                 ></i>
               </span>
             </div>
@@ -32,7 +32,15 @@ export default class TableHeader extends Component {
           </th>
 
           <th scope="col">
-            <div className="th-inner heading">Email</div>
+            <div className="th-inner heading">
+              Email
+              <span>
+                <i
+                  onClick={() => this.props.sortHandlerEmail()}
+                  className={this.props.sortDirection}
+                ></i>
+              </span>
+            </div>
             <div className="fht-cell">
               <div className="filter-control">
                 <input

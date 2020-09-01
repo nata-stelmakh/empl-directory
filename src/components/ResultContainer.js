@@ -26,7 +26,7 @@ export default class ResultContainer extends Component {
     API.searchUsers().then(this.buildList).catch();
   }
 
-  sortHandler = (e) => {
+  sortHandlerName = (e) => {
     const sortedList = this.state.sortedList.sort((a, b) => {
       if (this.state.sortOrder === true) {
         return a.name.last.localeCompare(b.name.last);
@@ -44,10 +44,25 @@ export default class ResultContainer extends Component {
     });
   };
 
-  nameChangeHandler = (e) => {
-    console.log(e.target.value);
-    console.log(this.state);
+  sortHandlerEmail = (e) => {
+    const sortedList = this.state.sortedList.sort((a, b) => {
+      if (this.state.sortOrder === true) {
+        return a.email.localeCompare(b.email);
+      } else {
+        return b.email.localeCompare(a.email);
+      }
+    });
+    const direction = this.state.sortOrder
+      ? "fas fa-sort-down"
+      : "fas fa-sort-up";
+    this.setState({
+      sortedList: sortedList,
+      sortOrder: !this.state.sortOrder,
+      sortDirection: direction,
+    });
+  };
 
+  nameChangeHandler = (e) => {
     const filtredList = this.state.list.filter(
       (item) =>
         item.name.first.toLowerCase().indexOf(e.target.value.toLowerCase()) !==
@@ -59,9 +74,6 @@ export default class ResultContainer extends Component {
   };
 
   emailChangeHandler = (e) => {
-    console.log(e.target.value);
-    console.log(this.state);
-
     const filtredList = this.state.list.filter(
       (item) =>
         item.email.toLowerCase().indexOf(e.target.value.toLowerCase()) !== -1
@@ -70,9 +82,6 @@ export default class ResultContainer extends Component {
   };
 
   officeChangeHandler = (e) => {
-    console.log(e.target.value);
-    console.log(this.state);
-
     const filtredList = this.state.list.filter(
       (item) =>
         item.location.country
@@ -82,9 +91,6 @@ export default class ResultContainer extends Component {
     this.setState({ sortedList: filtredList });
   };
   githubChangeHandler = (e) => {
-    console.log(e.target.value);
-    console.log(this.state);
-
     const filtredList = this.state.list.filter(
       (item) =>
         item.login.username
@@ -93,12 +99,38 @@ export default class ResultContainer extends Component {
     );
     this.setState({ sortedList: filtredList });
   };
+
+  // filterTable = (value, column) => {
+  //   const filtredList = this.state.list.filter((item) => {
+  //     if (column === "name") {
+  //       return (
+  //         item.name.first.toLowerCase().indexOf(value.toLowerCase()) !== -1 ||
+  //         item.name.last.toLowerCase().indexOf(value.toLowerCase()) !== -1
+  //       );
+  //     } else if (column === "email") {
+  //       return item.email.toLowerCase().indexOf(value.toLowerCase()) !== -1;
+  //     } else if (column === "github") {
+  //       return (
+  //         item.login.username.toLowerCase().indexOf(value.toLowerCase()) !== -1
+  //       );
+  //     } else if (column === "office") {
+  //       return (
+  //         item.location.country.toLowerCase().indexOf(value.toLowerCase()) !==
+  //         -1
+  //       );
+  //     } else {
+  //       return true;
+  //     }
+  //   });
+  //   this.setState({ sortedList: filtredList });
+  // };
   render() {
     return (
       <div>
         <table className="table">
           <TableHeader
-            sortHandler={this.sortHandler}
+            sortHandlerName={this.sortHandlerName}
+            sortHandlerEmail={this.sortHandlerEmail}
             sortDirection={this.state.sortDirection}
             nameChangeHandler={this.nameChangeHandler}
             emailChangeHandler={this.emailChangeHandler}
